@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <PlatformTarget>x64</PlatformTarget>
+    <ApplicationIcon>mihome.ico</ApplicationIcon>
+    <UseWindowsForms>False</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\mihome.png" />
+    <None Remove="Resources\tuya.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="mihome.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\mihome.png" />
+    <Resource Include="Resources\tuya.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="tuya\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Assets\Devices\Screen.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+</Project>

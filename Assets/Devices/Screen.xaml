@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="Mi.Assets.Devices.Screen"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Width="800" Height="560">
+
+    <Border CornerRadius="21" Background="#ffffff">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5 0">
+                <Button x:Name="Leave" Style="{StaticResource leaveButton}" Content="{StaticResource LeaveArrow}" Click="Button_Handle"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button x:Name="saveName" Click="Button_Handle" Style="{StaticResource longButtonStyle}" Background="#99ff99" Content="保存" Margin="10 0"/>
+                <TextBox x:Name="editName" Style="{StaticResource textboxSearch}" Grid.Row="1" Width="150"/>
+                <Button x:Name="delete" Click="Button_Handle" Grid.Row="1" Margin="10 0" Style="{StaticResource deleteButton}" Content="{StaticResource Delete}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Grid.Row="3" HorizontalAlignment="Center" Margin="0 100" VerticalAlignment="Top">
+                <TextBlock x:Name="Bright_text" FontSize="16" FontWeight="Bold" Margin="5 15" Foreground="#444444"/>
+                <Slider ValueChanged="Slider_Handle" PreviewMouseLeftButtonUp="MouseUp_Handle" x:Name="Bright" Style="{StaticResource SliderStyle}" Foreground="#cecece" Width="520" Height="60" Maximum="100" Minimum="1"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+
+    <s:String x:Key="LocalHome">本地家</s:String>
+
+    <s:String x:Key="MyHome">我的家</s:String>
+
+    <s:String x:Key="Please_Input_Account">请输入账号:</s:String>
+    <s:String x:Key="Please_Input_Password">请输入密码:</s:String>
+    <s:String x:Key="Device_Add">添加设备</s:String>
+
+    <s:String x:Key="Add_Fail_Please_Check_Message">添加失败 请检查输入的信息是否正确</s:String>
+    <s:String x:Key="Add_Fail_Please_Check_Account">获取登录信息失败 请检测信息是否输入正确</s:String>
+    <s:String x:Key="Add_Fail_Same_DeviceID">检查到相同DeviceID 添加设备失败</s:String>
+    <s:String x:Key="Add_Fail_Same_Handle">检查到相同Handle 添加设备失败</s:String>
+
+    <s:String x:Key="Read_Error">读取时错误</s:String>
+    <s:String x:Key="Cant_Read_Token">无法获取Token,请检测网络连接</s:String>
+    <s:String x:Key="Account_or_Password_Error">账号或密码错误</s:String>
+
+    <s:String x:Key="Please_Input_DeviceID">请填写DeviceID:</s:String>
+    <s:String x:Key="Please_Input_ClientID">请填写ClientID:</s:String>
+    <s:String x:Key="Please_Input_ClientSecret">请填写ClientSecret:</s:String>
+
+    <s:String x:Key="Please_Select_Your_Screen">请选择您的屏幕</s:String>
+
+    <s:String x:Key="Offline">已离线</s:String>
+
+    <s:String x:Key="Save">保存</s:String>
+
+    <s:String x:Key="Text_Screen">显示屏</s:String>
+    
+    <s:String x:Key="Apply">确定</s:String>
+
+    <s:String x:Key="brightness">亮度</s:String>
+    <s:String x:Key="has_been_off">已关</s:String>
+    <s:String x:Key="has_been_on">已开</s:String>
+    <s:String x:Key="colortemperature">色温</s:String>
+
+</ResourceDictionary>

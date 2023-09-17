@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+
+    <s:String x:Key="LocalHome">LocalHome</s:String>
+
+    <s:String x:Key="MyHome">MyHome</s:String>
+
+    <s:String x:Key="Please_Input_Account">Please Enter Account:</s:String>
+    <s:String x:Key="Please_Input_Password">Please Enter Password:</s:String>
+    <s:String x:Key="Device_Add">Add Device</s:String>
+
+    <s:String x:Key="Add_Fail_Please_Check_Message">Add Fail Please Check Message</s:String>
+    <s:String x:Key="Add_Fail_Please_Check_Account">Add Fail Please Check Account</s:String>
+    <s:String x:Key="Add_Fail_Same_DeviceID">Add Fail Same DeviceID</s:String>
+    <s:String x:Key="Add_Fail_Same_Handle">Add Fail Same Handle</s:String>
+
+    <s:String x:Key="Read_Error">Read Error</s:String>
+    <s:String x:Key="Cant_Read_Token">Can't Read Token</s:String>
+    <s:String x:Key="Account_or_Password_Error">Account or password error</s:String>
+
+    <s:String x:Key="Please_Input_DeviceID">Please Enter DeviceID:</s:String>
+    <s:String x:Key="Please_Input_ClientID">Please Enter ClientID:</s:String>
+    <s:String x:Key="Please_Input_ClientSecret">Please Enter ClientSecret:</s:String>
+
+    <s:String x:Key="Please_Select_Your_Screen">Please Select your screen</s:String>
+
+    <s:String x:Key="Offline">Offline</s:String>
+
+    <s:String x:Key="Save">Save</s:String>
+
+    <s:String x:Key="Text_Screen">Screen</s:String>
+
+    <s:String x:Key="Apply">Apply</s:String>
+
+    <s:String x:Key="brightness">Brightness</s:String>
+    <s:String x:Key="has_been_off">OFF</s:String>
+    <s:String x:Key="has_been_on">ON</s:String>
+    <s:String x:Key="colortemperature">ColorTemperature</s:String>
+
+</ResourceDictionary>
