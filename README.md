@@ -25,5 +25,5 @@ LocalHome是集成了米家,涂鸦,DDCCI功能的电脑程序
 程序打开并导入设备后程序会在 C:\ProgramData\LocalHome 创建一个数据文件
 
 ## 借鉴名单
-[Xiaomi-extractor](https://github.com/PiotrMachowski/Xiaomi-cloud-tokens-extractor)
+[Xiaomi-extractor](https://github.com/PiotrMachowski/Xiaomi-cloud-tokens-extractor)<br>
 [miio-by-C#](https://github.com/xcray/miio-by-CSharp)
