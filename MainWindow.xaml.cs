@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
