@@ -97,6 +97,7 @@ namespace Mi
                 case "DeleteAll":
                     saved_data.Devices.Clear();
                     RefreshDevice();
+                    Read_To_File();
                     break;
             }
         }
@@ -165,7 +166,7 @@ namespace Mi
                         using (Aes aes = Aes.Create())
                         {
                             aes.KeySize = 128;
-                            aes.Key = Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings["AesKey"]);
+                            aes.Key = Encoding.UTF8.GetBytes("LocalHomeDataKey");
                             aes.Mode = CipherMode.CBC;
                             aes.Padding = PaddingMode.PKCS7;
 
@@ -181,6 +182,8 @@ namespace Mi
 
                                 string json_data = Encoding.UTF8.GetString(Base64.Decode(outputStream.ToArray()));
                                 saved_data = JsonConvert.DeserializeObject<SavedData>(json_data);
+
+                                ReadFailed.Visibility = Visibility.Collapsed;   
                             }
                         }
                     }
@@ -202,7 +205,7 @@ namespace Mi
             using (Aes aes = Aes.Create())
             {
                 aes.KeySize = 128;
-                aes.Key = Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings["AesKey"]);
+                aes.Key = Encoding.UTF8.GetBytes("LocalHomeDataKey");
                 aes.Mode = CipherMode.CBC;
                 aes.Padding = PaddingMode.PKCS7;
 
