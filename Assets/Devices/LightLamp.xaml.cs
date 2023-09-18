@@ -1,6 +1,5 @@
 ﻿using miio;
 using System;
-using System.Diagnostics;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows;

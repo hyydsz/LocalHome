@@ -36,7 +36,7 @@ namespace Mi.Assets.Xamls
                     if (IsSearchDevice) return;
 
                     string Username = username.Text;
-                    string Password = password.Text;
+                    string Password = password.Password;
 
                     if(mihome.IsChecked.Value)
                     {
@@ -48,11 +48,11 @@ namespace Mi.Assets.Xamls
                             {
                                 if (Username == "" || Password == "") return;
 
-                                XiaomiExtractor xiaomi = new XiaomiExtractor(Username, Password);
+                                XiaomiExtractor xiaomi = new XiaomiExtractor(Username, XiaomiExtractor.get_MD5(Password));
                                 OutputDevice output = xiaomi.GetExtractorDevice();
                                 if (output.success)
                                 {
-                                    MainWindow.saved_data.Devices.RemoveAll(r => r.device_Type == Device.Device_Type.Mihome);
+                                    MainWindow.saved_data.Devices.RemoveAll(r => r.account == Username);
                                     await Dispatcher.InvokeAsync(() =>
                                     {
                                          MainWindow.ActionRefreshDevice();
@@ -60,25 +60,21 @@ namespace Mi.Assets.Xamls
 
                                     foreach (ExtractorDevice device in output.devices)
                                     {
-                                        if (device.Ip != null && device.Token != null & device.Model != null)
+                                        if (device.Ip != null && device.Token != null && device.Model != null)
                                         {
                                             if (!App.MiDeviceIsSupport(device.Model)) continue;
 
-                                            Device device1 = new Device(device.Ip, device.Did, device.Token, Device.Device_Type.Mihome, 54321);
-                                            device1.model = device.Model;
-                                            device1.Name = device.Name;
+                                            Device device1 = new Device(device.Ip, device.Did, device.Token, device.Model, device.Name, Device.Type_Mihome, 54321);
+                                            device1.account = Username;
+                                            device1.password = XiaomiExtractor.get_MD5(Password);
 
                                             MainWindow.saved_data.Devices.Add(device1);
-
-                                            await Dispatcher.InvokeAsync(() =>
-                                            {
-                                                MainWindow.ActionAddDevice(device1);
-                                            });
                                         }
                                     }
 
-                                    await Dispatcher.BeginInvoke(() =>
+                                    await Dispatcher.InvokeAsync(() =>
                                     {
+                                        MainWindow.ActionRefreshDevice();
                                         MainWindow.ActionFrameMove(false, 60, 500, false);
                                     });
                                 }
@@ -89,7 +85,7 @@ namespace Mi.Assets.Xamls
                             }
                             catch
                             {
-                                Error(App.getStringbyKey("Add_Fail_Please_Check_Account"));
+                                Error(App.getStringbyKey("Add_Failed_Please_Check_Account"));
                             }
 
                             IsSearchDevice = false;
@@ -102,13 +98,13 @@ namespace Mi.Assets.Xamls
                     {
                         if (TuyaDevice.GetDeviceInfo(ClientID.Text, ClientSecret.Text, Device_ID.Text).success)
                         {
-                            Device device1 = new Device(ClientID.Text, ClientSecret.Text, Device_ID.Text, Device.Device_Type.Tuya);
+                            Device device1 = new Device(ClientID.Text, ClientSecret.Text, Device_ID.Text, Device.Type_Tuya);
 
                             foreach (Device device in MainWindow.saved_data.Devices)
                             {
                                 if (device.DeviceID == Device_ID.Text)
                                 {
-                                    Error(App.getStringbyKey("Add_Fail_Same_DeviceID"));
+                                    Error(App.getStringbyKey("Add_Failed_Same_DeviceID"));
 
                                     return;
                                 }
@@ -126,7 +122,7 @@ namespace Mi.Assets.Xamls
                         }
                         else
                         {
-                            Error(App.getStringbyKey("Add_Fail_Please_Check_Message"));
+                            Error(App.getStringbyKey("Add_Failed_Please_Check_Message"));
                         }
                     }
 
@@ -142,7 +138,7 @@ namespace Mi.Assets.Xamls
                         {
                             if (device.DeviceHandle.Equals(device1.DeviceHandle))
                             {
-                                Error(App.getStringbyKey("Add_Fail_Same_Handle"));
+                                Error(App.getStringbyKey("Add_Failed_Same_Handle"));
 
                                 return;
                             }

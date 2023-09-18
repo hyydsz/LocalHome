@@ -20,7 +20,7 @@
                 <Button x:Name="Leave" Style="{StaticResource leaveButton}" Content="{StaticResource LeaveArrow}" Click="Button_Handle"/>
             </StackPanel>
 
-            <TextBlock Visibility="Hidden" x:Name="Error_Info" Grid.Row="2" Text="{DynamicResource Add_Fail_Please_Check_Message}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold"/>
+            <TextBlock Visibility="Hidden" x:Name="Error_Info" Grid.Row="2" Text="{DynamicResource Add_Failed_Please_Check_Message}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold"/>
 
             <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
                 <ToggleButton IsChecked="True" x:Name="mihome" Style="{StaticResource ChoosePlatform}" Margin="10 0" Click="Choose_Handle">
@@ -46,7 +46,7 @@
 
                 <Grid Margin="0 10">
                     <TextBlock Text="{DynamicResource Please_Input_Password}" FontSize="12" FontWeight="Bold" Margin="0 -10"/>
-                    <TextBox x:Name="password" Width="200" Style="{StaticResource textboxSearch}"/>
+                    <PasswordBox x:Name="password" PasswordChar="*" Width="200" Style="{StaticResource passwordbox}"/>
                 </Grid>
             </StackPanel>
 

@@ -1,22 +1,31 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Text.Json.Nodes;
 using tuya;
 
 namespace miio
 {
-    [Serializable]
     public class Device
     {
-        public Device_Type device_Type;
+        public const int Type_None = 0;
+        public const int Type_Mihome = 1;
+        public const int Type_Tuya = 2;
+        public const int Type_Screen = 3;
+
+        public int device_Type = Type_None;
+
+        // 账号
+        public string account = string.Empty;
+        public string password = string.Empty;
 
         // 设备名称
         public string Name = string.Empty;
         // 设备IP地址
-        public string address = string.Empty;
+        public string LocalAddress = string.Empty;
         // 设备型号
         public string model = string.Empty;
         // 设备端口
-        public int Port = 54321;
+        public int LocalPort = 54321;
         // 设备ID
         public string DeviceID = string.Empty;
 
@@ -32,7 +41,13 @@ namespace miio
         // 设备是否断开连接
         public bool disconnect = false;
 
-        public Device(IntPtr Handle, string Name, string model, string DeviceID, Device_Type type = Device_Type.Screen)
+        [JsonConstructor]
+        public Device(int type = Type_None)
+        {
+            this.device_Type = type;    
+        }
+
+        public Device(IntPtr Handle, string Name, string model, string DeviceID, int type = Type_Screen)
         {
             this.Name = Name;
             this.model = model;
@@ -41,17 +56,19 @@ namespace miio
             this.DeviceHandle = Handle;
         }
 
-        public Device(string ip, string DeviceID, string token, Device_Type type = Device_Type.Mihome, int port = 54321)
+        public Device(string LocalAddress, string DeviceID, string Token, string model, string Name, int type = Type_Tuya, int LocalPort = 54321)
         {
-            this.address = ip;
-            this.Token = token;
-            this.Port = port;
+            this.LocalAddress = LocalAddress;
             this.DeviceID = DeviceID;
+            this.Token = Token;
+            this.model = model;
+            this.Name = Name;
+            this.LocalPort = LocalPort;
 
             this.device_Type = type;
         }
 
-        public Device(string m_ClientID, string m_ClientSecret, string m_DeviceID, Device_Type type = Device_Type.Tuya)
+        public Device(string m_ClientID, string m_ClientSecret, string m_DeviceID, int type = Type_Mihome)
         {
             ClientID = m_ClientID;
             ClientSecret = m_ClientSecret;
@@ -66,10 +83,10 @@ namespace miio
         {
             switch (device_Type)
             {
-                case Device_Type.Mihome:
-                    return Discover.MihomeDeviceSendMessage(address, Port, Token, timeout, command, param);
+                case Type_Mihome:
+                    return Discover.MihomeDeviceSendMessage(LocalAddress, LocalPort, Token, timeout, command, param);
 
-                case Device_Type.Tuya:
+                case Type_Tuya:
                     return TuyaDevice.SendMessage(ClientID, ClientSecret, DeviceID, command);
             }
 
@@ -80,13 +97,13 @@ namespace miio
         {
             switch (device_Type)
             {
-                case Device_Type.Mihome:
+                case Type_Mihome:
                     return Convert.ToInt32(DeviceID, 16);
 
-                case Device_Type.Tuya:
+                case Type_Tuya:
                     return Convert.ToInt32(DeviceID);
 
-                case Device_Type.Screen:
+                case Type_Screen:
                     return Convert.ToInt32(DeviceID);
             }
 
@@ -97,10 +114,10 @@ namespace miio
         {
             switch (device_Type)
             {
-                case Device_Type.Mihome:
+                case Type_Mihome:
                     return SendCommand("miIO.info").value;
 
-                case Device_Type.Tuya:
+                case Type_Tuya:
                     return TuyaDevice.GetDeviceInfo(ClientID, ClientSecret, DeviceID).value;
             }
 
@@ -111,11 +128,11 @@ namespace miio
         {
             switch (device_Type)
             {
-                case Device_Type.Mihome:
+                case Type_Mihome:
                     disconnect = !SendCommand("miIO.info").success;
                     return disconnect;
 
-                case Device_Type.Tuya:
+                case Type_Tuya:
                     DeviceMessage device = TuyaDevice.GetDeviceInfo(ClientID, ClientSecret, DeviceID);
                     disconnect = !device.success;
 
@@ -145,7 +162,7 @@ namespace miio
         {
             switch (device_Type)
             {
-                case Device_Type.Mihome:
+                case Type_Mihome:
                     string request = SendCommand("miIO.info").value;
                     try
                     {
@@ -156,23 +173,16 @@ namespace miio
 
                     break;
 
-                case Device_Type.Tuya:
+                case Type_Tuya:
                     return model;
             }
 
             return "";
         }
 
-        public Device_Type get_device_type()
+        public int get_device_type()
         {
             return device_Type;
-        }
-
-        public enum Device_Type
-        {
-            Mihome = 0x01,
-            Tuya = 0x02,
-            Screen = 0x03
         }
     }
 }

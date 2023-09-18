@@ -33,6 +33,7 @@
                 <!-- 标题栏 -->
 
                 <TextBlock Text="{DynamicResource LocalHome}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                <TextBlock x:Name="ReadFailed" Visibility="Collapsed" Text="{DynamicResource File_Read_Failed}" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15" FontWeight="Bold" Foreground="#ff4444" Margin="150 0"/>
 
                 <ComboBox x:Name="SelectLanguage" VerticalAlignment="Top" HorizontalAlignment="Left" SelectionChanged="ChangeLanguage" Style="{StaticResource SimpleComboBoxStyle}" SelectedIndex="0" Margin="150 10" Width="100" Height="30">
                     <ComboBoxItem Style="{StaticResource CustomComboBoxItemStyle}" Content="Chinese"/>

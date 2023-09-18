@@ -10,10 +10,10 @@
     <s:String x:Key="Please_Input_Password">请输入密码:</s:String>
     <s:String x:Key="Device_Add">添加设备</s:String>
 
-    <s:String x:Key="Add_Fail_Please_Check_Message">添加失败 请检查输入的信息是否正确</s:String>
-    <s:String x:Key="Add_Fail_Please_Check_Account">获取登录信息失败 请检测信息是否输入正确</s:String>
-    <s:String x:Key="Add_Fail_Same_DeviceID">检查到相同DeviceID 添加设备失败</s:String>
-    <s:String x:Key="Add_Fail_Same_Handle">检查到相同Handle 添加设备失败</s:String>
+    <s:String x:Key="Add_Failed_Please_Check_Message">添加失败 请检查输入的信息是否正确</s:String>
+    <s:String x:Key="Add_Failed_Please_Check_Account">获取登录信息失败 请检测信息是否输入正确</s:String>
+    <s:String x:Key="Add_Failed_Same_DeviceID">检查到相同DeviceID 添加设备失败</s:String>
+    <s:String x:Key="Add_Failed_Same_Handle">检查到相同Handle 添加设备失败</s:String>
 
     <s:String x:Key="Read_Error">读取时错误</s:String>
     <s:String x:Key="Cant_Read_Token">无法获取Token,请检测网络连接</s:String>
@@ -37,5 +37,7 @@
     <s:String x:Key="has_been_off">已关</s:String>
     <s:String x:Key="has_been_on">已开</s:String>
     <s:String x:Key="colortemperature">色温</s:String>
+
+    <s:String x:Key="File_Read_Failed">文件读取失败</s:String>
 
 </ResourceDictionary>

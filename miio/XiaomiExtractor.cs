@@ -427,7 +427,7 @@ namespace miio
             HttpWebRequest request = get_current_request(url, "POST");
 
             string postData = $"sid=xiaomiio&" +
-                                          $"hash={get_MD5(this._password)}&" +
+                                          $"hash={this._password}&" +
                                           $"callback=https://sts.api.io.mi.com/sts&" +
                                           $"qs=%3Fsid%3Dxiaomiio%26_json%3Dtrue&" +
                                           $"user={this._username}&" +
@@ -508,7 +508,7 @@ namespace miio
             return request;
         }
 
-        private string get_MD5(string context)
+        public static string get_MD5(string context)
         {
             using (MD5 md5  = MD5.Create())
             {

@@ -1,10 +1,15 @@
 ﻿using Mi.Assets;
 using Mi.Assets.Xamls;
 using miio;
+using Newtonsoft.Json;
+using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows;   
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -33,15 +38,7 @@ namespace Mi
             ActionRefreshDevice = RefreshDevice;
             ActionAddDevice = Add_Device;
 
-            // 读取保存的信息
-            if (File.Exists(@"C:\ProgramData\LocalHome\Devices.data"))
-            {
-                using (FileStream fs = new FileStream(@"C:\ProgramData\LocalHome\Devices.data", FileMode.Open, FileAccess.Read))
-                {
-                    BinaryFormatter formatter = new BinaryFormatter();
-                    saved_data = (SavedData)formatter.Deserialize(fs);
-                }
-            }
+            Read_To_File();
 
             // 当动画完成后的回调
             (UpFrame.Resources["UpAnimation"] as Storyboard).Completed += FrameCompleted;
@@ -72,7 +69,6 @@ namespace Mi
             foreach (Device device in saved_data.Devices)
             {
                 DeviceList.Inlines.Add(new MiniDevice(device));
-                DeviceList.Inlines.Add(new Border { Height = 100 });
             }
         }
 
@@ -94,6 +90,7 @@ namespace Mi
                     break;
 
                 case "Reload":
+                    Read_To_File();
                     RefreshDevice();
                     break;
 
@@ -129,7 +126,7 @@ namespace Mi
         // 控制每个界面的动画
         public void FrameMove(bool UpOrDown, double From, double To, bool RightOrUp)
         {
-            Storyboard UpAnimation = null;
+            Storyboard UpAnimation;
 
             if (RightOrUp)
             {
@@ -152,6 +149,49 @@ namespace Mi
             UpAnimation.Begin();
         }
 
+        private void Read_To_File()
+        {
+            // 读取保存的信息
+            if (File.Exists(@"C:\ProgramData\LocalHome\Devices.bin"))
+            {
+                try
+                {
+                    using (FileStream fileStream = new FileStream(@"C:\ProgramData\LocalHome\Devices.bin", FileMode.Open, FileAccess.Read))
+                    using (MemoryStream read = new MemoryStream())
+                    {
+                        fileStream.CopyTo(read);
+                        byte[] data = read.ToArray();
+
+                        using (Aes aes = Aes.Create())
+                        {
+                            aes.KeySize = 128;
+                            aes.Key = Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings["AesKey"]);
+                            aes.Mode = CipherMode.CBC;
+                            aes.Padding = PaddingMode.PKCS7;
+
+                            aes.IV = data.Take(16).ToArray();
+
+                            ICryptoTransform cryptoTransform = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                            using (MemoryStream inputStream = new MemoryStream(data.Skip(16).ToArray()))
+                            using (CryptoStream cryptoStream = new CryptoStream(inputStream, cryptoTransform, CryptoStreamMode.Read))
+                            using (MemoryStream outputStream = new MemoryStream())
+                            {
+                                cryptoStream.CopyTo(outputStream);
+
+                                string json_data = Encoding.UTF8.GetString(Base64.Decode(outputStream.ToArray()));
+                                saved_data = JsonConvert.DeserializeObject<SavedData>(json_data);
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                    ReadFailed.Visibility = Visibility.Visible;
+                }
+            }
+        }
+
         public void Write_To_File()
         {
             if (!Directory.Exists(@"C:\ProgramData\LocalHome"))
@@ -159,10 +199,31 @@ namespace Mi
                 Directory.CreateDirectory(@"C:\ProgramData\LocalHome");
             }
 
-            using (FileStream fs = new FileStream(@"C:\ProgramData\LocalHome\Devices.data", FileMode.Create, FileAccess.Write))
+            using (Aes aes = Aes.Create())
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(fs, saved_data);
+                aes.KeySize = 128;
+                aes.Key = Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings["AesKey"]);
+                aes.Mode = CipherMode.CBC;
+                aes.Padding = PaddingMode.PKCS7;
+
+                aes.GenerateIV();
+
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                using (MemoryStream encryptedStream = new MemoryStream())
+                using (CryptoStream cryptoStream = new CryptoStream(encryptedStream, encryptor, CryptoStreamMode.Write))
+                {
+                    byte[] json_data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(saved_data));
+
+                    cryptoStream.Write(Base64.Encode(json_data));
+                    cryptoStream.FlushFinalBlock();
+
+                    using (FileStream file = new FileStream(@"C:\ProgramData\LocalHome\Devices.bin", FileMode.OpenOrCreate, FileAccess.Write))
+                    {
+                        file.SetLength(0);
+                        file.Write(aes.IV.Concat(encryptedStream.ToArray()).ToArray());
+                    }
+                }
             }
         }
 
@@ -175,7 +236,6 @@ namespace Mi
             DeviceList.Inlines.Add(new Border { Height = 100 });
         }
 
-        // 移除设备
         public void RefreshDevice()
         {
             Write_To_File();
@@ -211,7 +271,7 @@ namespace Mi
     }
 
     [Serializable]
-    public struct SavedData
+    public class SavedData
     {
         public List<Device> Devices;
         public string Language;

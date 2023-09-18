@@ -10,10 +10,10 @@
     <s:String x:Key="Please_Input_Password">Please Enter Password:</s:String>
     <s:String x:Key="Device_Add">Add Device</s:String>
 
-    <s:String x:Key="Add_Fail_Please_Check_Message">Add Fail Please Check Message</s:String>
-    <s:String x:Key="Add_Fail_Please_Check_Account">Add Fail Please Check Account</s:String>
-    <s:String x:Key="Add_Fail_Same_DeviceID">Add Fail Same DeviceID</s:String>
-    <s:String x:Key="Add_Fail_Same_Handle">Add Fail Same Handle</s:String>
+    <s:String x:Key="Add_Failed_Please_Check_Message">Add Fail Please Check Message</s:String>
+    <s:String x:Key="Add_Failed_Please_Check_Account">Add Fail Please Check Account</s:String>
+    <s:String x:Key="Add_Failed_Same_DeviceID">Add Fail Same DeviceID</s:String>
+    <s:String x:Key="Add_Failed_Same_Handle">Add Fail Same Handle</s:String>
 
     <s:String x:Key="Read_Error">Read Error</s:String>
     <s:String x:Key="Cant_Read_Token">Can't Read Token</s:String>
@@ -37,5 +37,7 @@
     <s:String x:Key="has_been_off">OFF</s:String>
     <s:String x:Key="has_been_on">ON</s:String>
     <s:String x:Key="colortemperature">ColorTemperature</s:String>
+
+    <s:String x:Key="File_Read_Failed">File read error</s:String>
 
 </ResourceDictionary>
