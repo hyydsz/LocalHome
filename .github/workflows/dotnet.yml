@@ -23,7 +23,7 @@ jobs:
         dotnet-version: 6.x
 
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore Mihome.sln
       
     - name: Build
-      run: dotnet build -c release
+      run: dotnet build -c release Mihome.sln
