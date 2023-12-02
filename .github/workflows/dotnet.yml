@@ -16,13 +16,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 6.x
 
     - name: Resotre
-      run: dotnet resotre Mihome.sln
+      run: dotnet resotre
       
     - name: Build
-      run: dotnet build Mihome.sln
+      run: dotnet build -c release
