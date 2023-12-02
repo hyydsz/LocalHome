@@ -22,7 +22,7 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Resotre
-      run: dotnet resotre Mihome
+      run: dotnet resotre Mihome.sln
       
     - name: Build
-      run: dotnet build Mihome
+      run: dotnet build Mihome.sln
